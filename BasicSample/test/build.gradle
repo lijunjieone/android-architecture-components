@@ -18,9 +18,9 @@ android {
     dataBinding {
         enabled = true
     }
-    lintOptions {
-        abortOnError false
-    }
+//    lintOptions {
+//        abortOnError false
+//    }
     buildTypes {
         release {
             minifyEnabled false
