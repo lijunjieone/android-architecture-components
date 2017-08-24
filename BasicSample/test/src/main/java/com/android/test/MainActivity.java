@@ -18,15 +18,26 @@ public class MainActivity extends LifecycleActivity {
         getLifecycle().addObserver(a);
 
         if (savedInstanceState == null) {
-            MxFragment fragment = new MxFragment();
-            fragment.getLifecycle().addObserver(a);
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment, MxFragment.TAG).commit();
+            openF2(a);
         }
 
     }
 
+    private void openF1(A a) {
+        MxFragment fragment = new MxFragment();
+        fragment.getLifecycle().addObserver(a);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, MxFragment.TAG).commit();
+    }
+
+    private void openF2(A a) {
+        MxFragment2 fragment = new MxFragment2();
+        fragment.getLifecycle().addObserver(a);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, MxFragment.TAG).commit();
+    }
 
     class A implements LifecycleObserver{
 
