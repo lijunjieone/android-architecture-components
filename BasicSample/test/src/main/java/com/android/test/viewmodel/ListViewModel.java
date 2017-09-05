@@ -37,6 +37,8 @@ public class ListViewModel extends AndroidViewModel {
         mLiveData.postValue(data);
     }
 
+
+
     public LiveData<List<String>> getData() {
         return mLiveData;
     }

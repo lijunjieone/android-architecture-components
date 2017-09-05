@@ -18,7 +18,7 @@ public class MainActivity extends LifecycleActivity {
         getLifecycle().addObserver(a);
 
         if (savedInstanceState == null) {
-            openF2(a);
+            openF3(a);
         }
 
     }
@@ -33,6 +33,14 @@ public class MainActivity extends LifecycleActivity {
 
     private void openF2(A a) {
         MxFragment2 fragment = new MxFragment2();
+        fragment.getLifecycle().addObserver(a);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment, MxFragment.TAG).commit();
+    }
+
+    private void openF3(A a) {
+        MxFragmentFromDb fragment = new MxFragmentFromDb();
         fragment.getLifecycle().addObserver(a);
 
         getSupportFragmentManager().beginTransaction()
