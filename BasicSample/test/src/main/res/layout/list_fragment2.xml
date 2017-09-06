@@ -22,6 +22,8 @@
         <variable
             name="isLoading"
             type="boolean" />
+        <variable name="callback"
+            type="com.android.test.ui.ProductClickCallback"/>
     </data>
 
     <LinearLayout
@@ -30,22 +32,25 @@
         android:background="@color/cardview_light_background"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/loading_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="loading_products"
-            android:textAlignment="center"
-            app:visibleGone="@{isLoading}"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/products_list"
             android:contentDescription="cd_products_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="2"
             app:layoutManager="LinearLayoutManager"
             app:visibleGone="@{!isLoading}"/>
+        <TextView
+            android:id="@+id/loading_tv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="add product"
+            android:onClick="@{() ->  callback.onClick()}"
+            android:textAlignment="center"
+            />
 
     </LinearLayout>
 </layout>

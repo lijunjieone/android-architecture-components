@@ -1,5 +1,6 @@
 package com.android.test;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -13,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.test.databinding.ListFragment2Binding;
 import com.android.test.db.entity.ProductEntity;
 import com.android.test.model.Product;
+import com.android.test.ui.ProductClickCallback;
 import com.android.test.viewmodel.DbViewModel;
 import com.android.test.viewmodel.ListViewModel;
 
@@ -36,6 +39,7 @@ public class MxFragmentFromDb extends LifecycleFragment {
     ListFragment2Binding mBinding;
     RecyclerView mListView;
     TextAdapter mAdapter;
+    DbViewModel mDbViewModel;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class MxFragmentFromDb extends LifecycleFragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment2, container, false);
         mBinding.setIsLoading(false);
         mBinding.getRoot().setBackgroundColor(Color.RED);
+        mBinding.setCallback( mProductClickCallback);
 
 
 
@@ -57,9 +62,9 @@ public class MxFragmentFromDb extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DbViewModel model= ViewModelProviders.of(this).get(DbViewModel.class);
+        mDbViewModel= ViewModelProviders.of(this).get(DbViewModel.class);
         mAdapter=new TextAdapter(new ArrayList<ProductEntity>());
-        model.getData().observe(this, new Observer<List<ProductEntity>>() {
+        mDbViewModel.getData().observe(this, new Observer<List<ProductEntity>>() {
             @Override
             public void onChanged(@Nullable List<ProductEntity> strings) {
                 if(strings!=null) {
@@ -72,6 +77,21 @@ public class MxFragmentFromDb extends LifecycleFragment {
         mListView.setAdapter(mAdapter);
     }
 
+    private final ProductClickCallback mProductClickCallback = new ProductClickCallback() {
+        @Override
+        public void onClick() {
+            Toast.makeText(getContext(),"add success",Toast.LENGTH_LONG).show();
+            new Thread(){
+                public void run() {
+                    mDbViewModel.insertOne();
+                }
+            }.start();
+
+
+        }
+
+
+    };
 
 
     class TextAdapter extends  RecyclerView.Adapter<TextViewHolder> {

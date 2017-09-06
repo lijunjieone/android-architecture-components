@@ -12,6 +12,7 @@ import com.android.test.db.entity.ProductEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by lijunjie on 24/08/2017.
@@ -30,13 +31,13 @@ public class DbViewModel extends AndroidViewModel {
     }
 
 
-
+    DatabaseCreator databaseCreator;
     private  LiveData<List<ProductEntity>> mObservableProducts = null;
 
 //    private MutableLiveData<List<String>> mLiveData;
 
     private void init() {
-        final DatabaseCreator databaseCreator = DatabaseCreator.getInstance(this.getApplication());
+        databaseCreator = DatabaseCreator.getInstance(this.getApplication());
 
         LiveData<Boolean> databaseCreated = databaseCreator.isDatabaseCreated();
         mObservableProducts = Transformations.switchMap(databaseCreated,
@@ -56,6 +57,21 @@ public class DbViewModel extends AndroidViewModel {
         databaseCreator.createDb(this.getApplication());
     }
 
+
+
+    public void insertOne() {
+        ProductEntity entity=new ProductEntity();
+        Random r=new Random();
+        int i=r.nextInt(1000);
+        entity.setId(i);
+        entity.setName("this is a test!");
+        entity.setPrice(100);
+        try{
+            databaseCreator.getDatabase().productDao().insertProduct(entity);
+        }catch (android.database.sqlite.SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public LiveData<List<ProductEntity>> getData() {
