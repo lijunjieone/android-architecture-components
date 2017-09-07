@@ -3,12 +3,14 @@ package com.android.test.db.entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.android.test.model.Product;
+
 /**
  * Created by lijunjie on 05/09/2017.
  */
 
 @Entity(tableName = "products")
-public class ProductEntity {
+public class ProductEntity implements Product {
 
     @PrimaryKey
     private int id;
